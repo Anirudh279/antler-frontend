@@ -15,9 +15,19 @@ function ChatbotInterface({ onLogout }) {
 
   useEffect(scrollToBottom, [messages]);
 
-  const handleSend = async () => {
-    if (input.trim()) {
-      const userMessage = { text: input, sender: 'user' };
+  const samplePrompts = [
+    "Founders with experience in Machine Learning",
+    "Expertise in Algorithmic trading"
+  ];
+
+  const handlePromptClick = (prompt) => {
+    setInput(prompt);
+    handleSend(prompt);
+  };
+
+  const handleSend = async (message = input) => {
+    if (message.trim()) {
+      const userMessage = { text: message, sender: 'user' };
       setMessages(prevMessages => [...prevMessages, userMessage]);
       setInput('');
       setIsLoading(true);
@@ -30,7 +40,7 @@ function ChatbotInterface({ onLogout }) {
             'Content-Type': 'application/json'
           },
           data: JSON.stringify({
-            message: input
+            message: message
           })
         });
 
@@ -200,6 +210,22 @@ function ChatbotInterface({ onLogout }) {
       objectFit: 'contain',
       borderRadius: '0.5rem',
     },
+    samplePromptsContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      gap: '10px',
+      padding: '10px',
+      backgroundColor: '#f0f0f0',
+    },
+    samplePrompt: {
+      padding: '5px 10px',
+      backgroundColor: '#e0e0e0',
+      borderRadius: '15px',
+      cursor: 'pointer',
+      fontSize: '0.9rem',
+      transition: 'background-color 0.3s',
+    },
   };
 
   const mobileStyles = {
@@ -304,6 +330,17 @@ function ChatbotInterface({ onLogout }) {
           <div ref={messagesEndRef} />
         </div>
       </div>
+      <div style={currentStyles.samplePromptsContainer}>
+        {samplePrompts.map((prompt, index) => (
+          <div
+            key={index}
+            style={currentStyles.samplePrompt}
+            onClick={() => handlePromptClick(prompt)}
+          >
+            {prompt}
+          </div>
+        ))}
+      </div>
       <div style={currentStyles.inputArea}>
         <div style={currentStyles.inputContainer}>
           <textarea
@@ -314,7 +351,7 @@ function ChatbotInterface({ onLogout }) {
             placeholder="Type a message..."
             rows="1"
           />
-          <button style={currentStyles.sendButton} onClick={handleSend}>
+          <button style={currentStyles.sendButton} onClick={() => handleSend()}>
             Send
           </button>
         </div>
