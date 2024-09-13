@@ -181,6 +181,8 @@ function ChatbotInterface({ onLogout }) {
       padding: windowDimensions.width <= 768 ? '0.5rem' : '1rem',
       backgroundColor: '#ffffff',
       borderTop: '1px solid #d2d2d7',
+      position: 'sticky',
+      bottom: 0,
     },
     inputContainer: {
       maxWidth: '800px',
@@ -198,9 +200,12 @@ function ChatbotInterface({ onLogout }) {
       resize: 'none',
       backgroundColor: '#ffffff',
       color: '#1d1d1f',
+      minHeight: windowDimensions.width <= 768 ? '36px' : '40px',
+      maxHeight: '100px',
+      overflow: 'auto',
     },
     sendButton: {
-      padding: windowDimensions.width <= 768 ? '0.5rem 1rem' : '0.75rem 1.5rem',
+      padding: windowDimensions.width <= 768 ? '0.5rem' : '0.75rem 1.5rem',
       fontSize: windowDimensions.width <= 768 ? '0.9rem' : '1rem',
       backgroundColor: '#007aff',
       color: 'white',
@@ -208,6 +213,7 @@ function ChatbotInterface({ onLogout }) {
       borderRadius: '1.5rem',
       cursor: 'pointer',
       transition: 'background-color 0.3s',
+      alignSelf: 'flex-end',
     },
     loadingIndicator: {
       alignSelf: 'flex-start',
