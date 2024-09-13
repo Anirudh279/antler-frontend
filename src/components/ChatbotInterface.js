@@ -111,11 +111,11 @@ function ChatbotInterface({ onLogout }) {
       padding: windowDimensions.width <= 768 ? '0.5rem' : '1rem',
       borderBottom: '1px solid #d2d2d7',
       boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       right: 0,
-      zIndex: 1000,
+      zIndex: 10,
     },
     headerContainer: {
       display: 'flex',
@@ -167,7 +167,8 @@ function ChatbotInterface({ onLogout }) {
       flex: 1,
       overflowY: 'auto',
       marginTop: windowDimensions.width <= 768 ? '60px' : '80px',
-      paddingBottom: '60px', // Add padding to account for input area
+      marginBottom: '60px', // Add margin to account for input area
+      height: 'calc(100% - 120px)', // Adjust height to account for header and input area
     },
     chatArea: {
       flex: 1,
@@ -207,7 +208,7 @@ function ChatbotInterface({ onLogout }) {
       bottom: 0,
       left: 0,
       right: 0,
-      zIndex: 1000,
+      zIndex: 10,
     },
     inputContainer: {
       maxWidth: '800px',
@@ -226,7 +227,7 @@ function ChatbotInterface({ onLogout }) {
       backgroundColor: '#ffffff',
       color: '#1d1d1f',
       minHeight: '40px',
-      maxHeight: '120px',
+      maxHeight: '80px', // Reduced max height
       overflow: 'auto',
       marginRight: '0.5rem',
     },
@@ -244,6 +245,7 @@ function ChatbotInterface({ onLogout }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      flexShrink: 0, // Prevent button from shrinking
     },
     sendIcon: {
       width: '20px',
