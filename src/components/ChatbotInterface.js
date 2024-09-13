@@ -84,8 +84,8 @@ function ChatbotInterface({ onLogout }) {
     container: {
       display: 'flex',
       flexDirection: 'column',
-      height: `${windowDimensions.height}px`,
-      width: `${windowDimensions.width}px`,
+      height: '100vh', // Changed from fixed pixel value
+      width: '100%', // Changed from fixed pixel value
       margin: 0,
       padding: 0,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
