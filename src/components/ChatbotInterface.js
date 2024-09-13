@@ -186,7 +186,7 @@ function ChatbotInterface({ onLogout }) {
     },
     inputArea: {
       display: 'flex',
-      padding: windowDimensions.width <= 768 ? '0.5rem' : '1rem',
+      padding: '0.5rem',
       backgroundColor: '#ffffff',
       borderTop: '1px solid #d2d2d7',
       position: 'sticky',
@@ -197,31 +197,41 @@ function ChatbotInterface({ onLogout }) {
       width: '100%',
       margin: '0 auto',
       display: 'flex',
+      alignItems: 'center',
     },
     input: {
       flex: 1,
-      padding: windowDimensions.width <= 768 ? '0.5rem' : '0.75rem',
-      fontSize: windowDimensions.width <= 768 ? '0.9rem' : '1rem',
+      padding: '0.75rem',
+      fontSize: '1rem',
       border: '1px solid #d2d2d7',
-      borderRadius: '1.5rem',
-      marginRight: '0.75rem',
+      borderRadius: '20px',
       resize: 'none',
       backgroundColor: '#ffffff',
       color: '#1d1d1f',
-      minHeight: windowDimensions.width <= 768 ? '36px' : '40px',
-      maxHeight: '100px',
+      minHeight: '40px',
+      maxHeight: '120px',
       overflow: 'auto',
+      marginRight: '0.5rem',
     },
     sendButton: {
-      padding: windowDimensions.width <= 768 ? '0.5rem' : '0.75rem 1.5rem',
-      fontSize: windowDimensions.width <= 768 ? '0.9rem' : '1rem',
+      width: '40px',
+      height: '40px',
+      padding: 0,
+      fontSize: '1.2rem',
       backgroundColor: '#007aff',
       color: 'white',
       border: 'none',
-      borderRadius: '1.5rem',
+      borderRadius: '50%',
       cursor: 'pointer',
       transition: 'background-color 0.3s',
-      alignSelf: 'flex-end',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    sendIcon: {
+      width: '20px',
+      height: '20px',
+      fill: 'white',
     },
     loadingIndicator: {
       alignSelf: 'flex-start',
@@ -338,7 +348,9 @@ function ChatbotInterface({ onLogout }) {
               rows="1"
             />
             <button style={styles.sendButton} onClick={() => handleSend()}>
-              Send
+              <svg style={styles.sendIcon} viewBox="0 0 24 24">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+              </svg>
             </button>
           </div>
         </div>
