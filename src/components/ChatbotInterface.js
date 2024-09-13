@@ -22,15 +22,7 @@ function ChatbotInterface({ onLogout }) {
     };
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
-
-    // Initial call to set the correct height
-    handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const scrollToBottom = () => {
@@ -100,22 +92,17 @@ function ChatbotInterface({ onLogout }) {
       backgroundColor: '#f5f5f7',
       color: '#1d1d1f',
       overflow: 'hidden',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
     },
     header: {
       backgroundColor: '#ffffff',
       padding: windowDimensions.width <= 768 ? '0.5rem' : '1rem',
       borderBottom: '1px solid #d2d2d7',
       boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-      position: 'absolute',
+      position: 'fixed',
       top: 0,
       left: 0,
       right: 0,
-      zIndex: 10,
+      zIndex: 1000,
     },
     headerContainer: {
       display: 'flex',
@@ -167,8 +154,6 @@ function ChatbotInterface({ onLogout }) {
       flex: 1,
       overflowY: 'auto',
       marginTop: windowDimensions.width <= 768 ? '60px' : '80px',
-      marginBottom: '60px', // Add margin to account for input area
-      height: 'calc(100% - 120px)', // Adjust height to account for header and input area
     },
     chatArea: {
       flex: 1,
@@ -204,11 +189,8 @@ function ChatbotInterface({ onLogout }) {
       padding: '0.5rem',
       backgroundColor: '#ffffff',
       borderTop: '1px solid #d2d2d7',
-      position: 'absolute',
+      position: 'sticky',
       bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 10,
     },
     inputContainer: {
       maxWidth: '800px',
@@ -227,7 +209,7 @@ function ChatbotInterface({ onLogout }) {
       backgroundColor: '#ffffff',
       color: '#1d1d1f',
       minHeight: '40px',
-      maxHeight: '80px', // Reduced max height
+      maxHeight: '120px',
       overflow: 'auto',
       marginRight: '0.5rem',
     },
@@ -245,7 +227,6 @@ function ChatbotInterface({ onLogout }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      flexShrink: 0, // Prevent button from shrinking
     },
     sendIcon: {
       width: '20px',
@@ -356,22 +337,22 @@ function ChatbotInterface({ onLogout }) {
             </div>
           ))}
         </div>
-      </div>
-      <div style={styles.inputArea}>
-        <div style={styles.inputContainer}>
-          <textarea
-            style={styles.input}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Type a message..."
-            rows="1"
-          />
-          <button style={styles.sendButton} onClick={() => handleSend()}>
-            <svg style={styles.sendIcon} viewBox="0 0 24 24">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            </svg>
-          </button>
+        <div style={styles.inputArea}>
+          <div style={styles.inputContainer}>
+            <textarea
+              style={styles.input}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type a message..."
+              rows="1"
+            />
+            <button style={styles.sendButton} onClick={() => handleSend()}>
+              <svg style={styles.sendIcon} viewBox="0 0 24 24">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
