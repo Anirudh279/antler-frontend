@@ -22,7 +22,15 @@ function ChatbotInterface({ onLogout }) {
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
+    // Initial call to set the correct height
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+    };
   }, []);
 
   const scrollToBottom = () => {
@@ -92,6 +100,11 @@ function ChatbotInterface({ onLogout }) {
       backgroundColor: '#f5f5f7',
       color: '#1d1d1f',
       overflow: 'hidden',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
     },
     header: {
       backgroundColor: '#ffffff',
@@ -154,6 +167,7 @@ function ChatbotInterface({ onLogout }) {
       flex: 1,
       overflowY: 'auto',
       marginTop: windowDimensions.width <= 768 ? '60px' : '80px',
+      paddingBottom: '60px', // Add padding to account for input area
     },
     chatArea: {
       flex: 1,
@@ -189,8 +203,11 @@ function ChatbotInterface({ onLogout }) {
       padding: '0.5rem',
       backgroundColor: '#ffffff',
       borderTop: '1px solid #d2d2d7',
-      position: 'sticky',
+      position: 'absolute',
       bottom: 0,
+      left: 0,
+      right: 0,
+      zIndex: 1000,
     },
     inputContainer: {
       maxWidth: '800px',
@@ -337,22 +354,22 @@ function ChatbotInterface({ onLogout }) {
             </div>
           ))}
         </div>
-        <div style={styles.inputArea}>
-          <div style={styles.inputContainer}>
-            <textarea
-              style={styles.input}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type a message..."
-              rows="1"
-            />
-            <button style={styles.sendButton} onClick={() => handleSend()}>
-              <svg style={styles.sendIcon} viewBox="0 0 24 24">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-              </svg>
-            </button>
-          </div>
+      </div>
+      <div style={styles.inputArea}>
+        <div style={styles.inputContainer}>
+          <textarea
+            style={styles.input}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type a message..."
+            rows="1"
+          />
+          <button style={styles.sendButton} onClick={() => handleSend()}>
+            <svg style={styles.sendIcon} viewBox="0 0 24 24">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
