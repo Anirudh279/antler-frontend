@@ -84,8 +84,8 @@ function ChatbotInterface({ onLogout }) {
     container: {
       display: 'flex',
       flexDirection: 'column',
-      height: '100vh', // Changed from fixed pixel value
-      width: '100%', // Changed from fixed pixel value
+      height: '100vh',
+      width: '100%',
       margin: 0,
       padding: 0,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
@@ -98,8 +98,10 @@ function ChatbotInterface({ onLogout }) {
       padding: windowDimensions.width <= 768 ? '0.5rem' : '1rem',
       borderBottom: '1px solid #d2d2d7',
       boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
+      left: 0,
+      right: 0,
       zIndex: 1000,
     },
     headerContainer: {
@@ -146,9 +148,15 @@ function ChatbotInterface({ onLogout }) {
       cursor: 'pointer',
       transition: 'background-color 0.3s',
     },
-    chatArea: {
+    mainContent: {
+      display: 'flex',
+      flexDirection: 'column',
       flex: 1,
       overflowY: 'auto',
+      marginTop: windowDimensions.width <= 768 ? '60px' : '80px',
+    },
+    chatArea: {
+      flex: 1,
       padding: windowDimensions.width <= 768 ? '0.5rem' : '1rem',
       display: 'flex',
       flexDirection: 'column',
@@ -282,55 +290,57 @@ function ChatbotInterface({ onLogout }) {
           Logout
         </button>
       </div>
-      <div style={styles.chatArea}>
-        <div style={styles.messageContainer}>
-          {messages.map((message, index) => (
+      <div style={styles.mainContent}>
+        <div style={styles.chatArea}>
+          <div style={styles.messageContainer}>
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                style={{
+                  ...styles.message,
+                  ...(message.sender === 'user' ? styles.userMessage : styles.botMessage),
+                }}
+              >
+                {message.sender === 'user' ? (
+                  message.text
+                ) : (
+                  <div style={styles.markdownContent}>
+                    {renderMarkdown(message.text)}
+                  </div>
+                )}
+              </div>
+            ))}
+            {isLoading && (
+              <div style={styles.loadingIndicator}>AI is thinking...</div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+        <div style={styles.samplePromptsContainer}>
+          {samplePrompts.map((prompt, index) => (
             <div
               key={index}
-              style={{
-                ...styles.message,
-                ...(message.sender === 'user' ? styles.userMessage : styles.botMessage),
-              }}
+              style={styles.samplePrompt}
+              onClick={() => handlePromptClick(prompt)}
             >
-              {message.sender === 'user' ? (
-                message.text
-              ) : (
-                <div style={styles.markdownContent}>
-                  {renderMarkdown(message.text)}
-                </div>
-              )}
+              {prompt}
             </div>
           ))}
-          {isLoading && (
-            <div style={styles.loadingIndicator}>AI is thinking...</div>
-          )}
-          <div ref={messagesEndRef} />
         </div>
-      </div>
-      <div style={styles.samplePromptsContainer}>
-        {samplePrompts.map((prompt, index) => (
-          <div
-            key={index}
-            style={styles.samplePrompt}
-            onClick={() => handlePromptClick(prompt)}
-          >
-            {prompt}
+        <div style={styles.inputArea}>
+          <div style={styles.inputContainer}>
+            <textarea
+              style={styles.input}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type a message..."
+              rows="1"
+            />
+            <button style={styles.sendButton} onClick={() => handleSend()}>
+              Send
+            </button>
           </div>
-        ))}
-      </div>
-      <div style={styles.inputArea}>
-        <div style={styles.inputContainer}>
-          <textarea
-            style={styles.input}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Type a message..."
-            rows="1"
-          />
-          <button style={styles.sendButton} onClick={() => handleSend()}>
-            Send
-          </button>
         </div>
       </div>
     </div>
